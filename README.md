@@ -1,2 +1,2 @@
 # Playfair-cipher-
-python code for ciphering text in Playfair
+Playfair cipher implemented in python
