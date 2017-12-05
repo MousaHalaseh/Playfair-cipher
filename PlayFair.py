@@ -125,8 +125,6 @@ def encrypt(key, msg):
             second[1] = temp
         cipher_text.append(matrix[first[0]][first[1]])
         cipher_text.append(matrix[second[0]][second[1]])
-    print("plain text: ", final_plain)
-    print("cipher text:", cipher_text)
     return cipher_text
 
 
@@ -135,18 +133,18 @@ def decrypt(cipher):
     return ""
 
 
-plain1 = 'Python is gold playfair is cool'
-apply_k1 = encrypt(key1, plain1.upper())
-apply_k2 = encrypt(key2, apply_k1)
+plainText = ''
+cipherText = ''
 
-'''
-plainText = None
-cipherText = None
 while True:
-    case = input("Enter 0 for Plain Text, 1 for Cipher Text...")
+    case = input("Enter 0 for Plain Text, 1 for Cipher Text: ")
     if case is '0':
         plainText = input("Please Enter a Plain Text? ")
-        encrypt(plainText)
+        plainText = str(plainText.upper())
+        print('Your plain text: ', plainText)
+        cipher1 = encrypt(key1, plainText)
+        cipher2 = encrypt(key2, cipher1)
+        print('You cipher text: ', cipher2)
         break
     elif case is '1':
         cipherText = input("Please Enter a Cipher Text? ")
@@ -154,12 +152,5 @@ while True:
         break
     else:
         print("please provide a valid input..")
-
-count = 0
-for x in range(5):
-    for y in range(5):
-        matrix[x][y] = count
-        count += 1
-'''
 
 
