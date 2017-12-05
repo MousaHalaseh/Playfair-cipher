@@ -67,10 +67,13 @@ def arrange(text):
                 values.append('X')
                 break
         elif result[x] == result[x + 1]:
+            flag = result[x] == result[x - 1] or result[x] == result[x + 1]
             values.append(result[x])
             values.append('X')
             values.append(result[x + 1])
             if x + 1 is len(result) - 1:
+                values.append('X')
+            elif flag:
                 values.append('X')
         else:
             values.append(result[x])
@@ -92,7 +95,6 @@ def encrypt(key, msg):
     text = text_to_list(key)
     update_matrix(text)
     final_plain = arrange(msg)
-    print(final_plain)
     cipher_text = []
     for x in range(0, len(final_plain), 2):
         first = search(final_plain[x])
@@ -125,7 +127,7 @@ def encrypt(key, msg):
         cipher_text.append(matrix[second[0]][second[1]])
     print("plain text: ", final_plain)
     print("cipher text:", cipher_text)
-    return matrix
+    return cipher_text
 
 
 def decrypt(cipher):
@@ -133,10 +135,10 @@ def decrypt(cipher):
     return ""
 
 
-plain1 = 'mousa halaseh'
-encrypt(key1, plain1.upper())
-#encrypt(key2, plain1.upper())
-print("\nMatrix:", matrix)
+plain1 = 'Python is gold playfair is cool'
+apply_k1 = encrypt(key1, plain1.upper())
+apply_k2 = encrypt(key2, apply_k1)
+
 '''
 plainText = None
 cipherText = None
