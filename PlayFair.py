@@ -4,6 +4,8 @@ matrix = [[1 for _ in range(5)] for _ in range(5)]
 
 key1 = 'HELLO'
 key2 = 'HASHEMITE'
+plainText = None
+cipherText = None
 
 alpha = list(ascii_uppercase)
 
@@ -21,6 +23,8 @@ def text_to_list(text):
     for x in range(len(text)):
         if text[x] is ' ':
             continue
+        elif text[x] is 'J':
+            result.append('I')
         elif already_exist(result, text[x].upper()):
             continue
         else:
@@ -51,7 +55,10 @@ def arrange(text):
     result = []
     for y in range(len(text)):
         if text[y] != ' ':
-            result.append(text[y])
+            if text[y] == 'J':
+                result.append('I')
+            else:
+                result.append(text[y])
     for x in range(0, len(result), 2):
         if x + 1 is len(result):
             if (x + 1) % 2 is 0 and result[x] == result[x - 1]:
@@ -67,7 +74,7 @@ def arrange(text):
                 values.append('X')
                 break
         elif result[x] == result[x + 1]:
-            flag = result[x] == result[x - 1] or result[x] == result[x + 1]
+            flag = result[x] == result[x - 1]
             values.append(result[x])
             values.append('X')
             values.append(result[x + 1])
@@ -128,13 +135,41 @@ def encrypt(key, msg):
     return cipher_text
 
 
-def decrypt(cipher):
-    text_to_list(cipher)
-    return ""
+def decrypt(key, cipher):
+    text = text_to_list(key)
+    update_matrix(text)
+    plain_text = []
+    for x in range(0, len(cipher), 2):
+        first = search(cipher[x])
+        second = search(cipher[x + 1])
+        if first[0] is second[0]:
+            if first[1] is 0:
+                first[1] = 4
+                second[1] = second[1] - 1
+            elif second[1] is 0:
+                second[1] = 4
+                first[1] = first[1] - 1
+            else:
+                first[1] = first[1] - 1
+                second[1] = second[1] - 1
+        elif first[1] is second[1]:
+            if first[0] is 0:
+                first[0] = 4
+                second[0] = second[0] - 1
+            elif second[0] is 0:
+                second[0] = 4
+                first[0] = first[0] - 1
+            else:
+                first[0] = first[0] - 1
+                second[0] = second[0] - 1
+        else:
+            temp = first[1]
+            first[1] = second[1]
+            second[1] = temp
+        plain_text.append(matrix[first[0]][first[1]])
+        plain_text.append(matrix[second[0]][second[1]])
+    return plain_text
 
-
-plainText = ''
-cipherText = ''
 
 while True:
     case = input("Enter 0 for Plain Text, 1 for Cipher Text: ")
@@ -148,9 +183,17 @@ while True:
         break
     elif case is '1':
         cipherText = input("Please Enter a Cipher Text? ")
-        decrypt(cipherText)
+        cipherText = str(cipherText.upper())
+        print('Your cipher text: ', cipherText)
+        plain1 = decrypt(key2, cipherText)
+        plain2 = decrypt(key1, plain1)
+        print('Your plain text: ', plain2)
+        flag = False
+        for x in range(len(plain2)):
+            if plain2[x] == 'I':
+                flag = True
+        if flag:
+            print('Note that the \'I\' might be a \'J\'')
         break
     else:
         print("please provide a valid input..")
-
-

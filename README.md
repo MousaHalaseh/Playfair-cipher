@@ -1,5 +1,6 @@
-# Playfair-cipher-
+# Playfair-cipher
 Playfair cipher implemented in python
 
-Please Use python3 to get the best experience
+In order to run this program you need a python interpreter.
+for the best experience please use python interpreter 3.6.3
 
