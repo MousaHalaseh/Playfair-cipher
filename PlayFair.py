@@ -171,6 +171,32 @@ def decrypt(key, cipher):
     return plain_text
 
 
+def removeX(text):
+    final_text = []
+    flag = False
+    for y in range(len(text)):
+        if y is 0:
+            final_text.append(text[y])
+        elif y is len(text) - 1:
+            if flag:
+                continue
+            else:
+                final_text.append(text[y])
+        elif text[y] == 'X':
+            if text[y - 1] == text[y + 1]:
+                flag = True
+                continue
+            elif flag:
+                flag = False
+                continue
+            else:
+                final_text.append(text[y])
+        else:
+            final_text.append(text[y])
+
+    return final_text
+
+
 while True:
     case = input("Enter 0 for Plain Text, 1 for Cipher Text: ")
     if case is '0':
@@ -187,7 +213,8 @@ while True:
         print('Your cipher text: ', cipherText)
         plain1 = decrypt(key2, cipherText)
         plain2 = decrypt(key1, plain1)
-        print('Your plain text: ', plain2)
+        plain3 = removeX(plain2)
+        print('Your plain text: ', plain3)
         flag = False
         for x in range(len(plain2)):
             if plain2[x] == 'I':
